@@ -1,19 +1,20 @@
-package dodv.dormitorymanagement.demo.dto.response;
+package dodv.dormitorymanagement.demo.dto.request;
 
 import lombok.*;
 
 import java.sql.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudentDTO {
+public class StudentRequestDTO {
     private String studentID;
     private String name;
-    private String address;
     private Date dateOfBirth;
+    private String address;
     private String image;
-    private ClassDTO studentClass;
-    private String roomName;
+    private int roomID;
+    private int classID;
 }

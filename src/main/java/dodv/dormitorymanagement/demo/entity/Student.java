@@ -29,6 +29,9 @@ public class Student {
     private Class className;
     @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
     List<Visit> visitList;
+    @ManyToOne
+    @JoinColumn(name="roomID")
+    private Room room;
     @ManyToMany(cascade = CascadeType.ALL)
      @JoinTable(
          name = "visit",
@@ -37,6 +40,15 @@ public class Student {
      )
     Set<Visitor> visitors;
 
+    public Student(String studentID, String name, String address, Date dateOfBirth, String image, Class className, Room room) {
+        this.studentID = studentID;
+        this.name = name;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.image = image;
+        this.className = className;
+        this.room = room;
+    }
 
     public String getStudentID() {
         return studentID;
@@ -84,5 +96,13 @@ public class Student {
 
     public void setClassName(Class className) {
         this.className = className;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

@@ -18,7 +18,6 @@ import java.util.List;
 public class ClassController {
     @Autowired
     private ClassService classService;
-
     @GetMapping("/get-all-classes")
     public List<ClassDTO> getAllClasses(){
         return classService.getAllClasses();
