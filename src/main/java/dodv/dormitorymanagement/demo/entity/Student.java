@@ -39,7 +39,12 @@ public class Student {
          inverseJoinColumns = {@JoinColumn(name="visitorID")}
      )
     Set<Visitor> visitors;
-
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    List<StudentFoodService> foodServices;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    List<StudentLaundryService> laundryServices;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    List<Bill> studentBills;
     public Student(String studentID, String name, String address, Date dateOfBirth, String image, Class className, Room room) {
         this.studentID = studentID;
         this.name = name;
@@ -104,5 +109,21 @@ public class Student {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public void setVisitList(List<Visit> visitList) {
+        this.visitList = visitList;
+    }
+
+    public void setVisitors(Set<Visitor> visitors) {
+        this.visitors = visitors;
+    }
+
+    public void setFoodServices(List<StudentFoodService> foodServices) {
+        this.foodServices = foodServices;
+    }
+
+    public void setLaundryServices(List<StudentLaundryService> laundryServices) {
+        this.laundryServices = laundryServices;
     }
 }

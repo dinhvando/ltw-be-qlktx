@@ -20,7 +20,12 @@ public class Room {
     private Integer maxPeople;
     @OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
     List<Student> students;
-
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    List<RoomElectricityService> roomElectricityServiceList;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    List<RoomWaterService> roomWaterServiceList;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    List<Bill> roomBills;
     public Room() {
     }
 
