@@ -40,9 +40,9 @@ public class Student {
      )
     Set<Visitor> visitors;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    List<StudentFoodService> foodServices;
+    List<StudentFood> foodServices;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    List<StudentLaundryService> laundryServices;
+    List<StudentLaundry> laundryServices;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     List<Bill> studentBills;
     public Student(String studentID, String name, String address, Date dateOfBirth, String image, Class className, Room room) {
@@ -119,11 +119,11 @@ public class Student {
         this.visitors = visitors;
     }
 
-    public void setFoodServices(List<StudentFoodService> foodServices) {
+    public void setFoodServices(List<StudentFood> foodServices) {
         this.foodServices = foodServices;
     }
 
-    public void setLaundryServices(List<StudentLaundryService> laundryServices) {
+    public void setLaundryServices(List<StudentLaundry> laundryServices) {
         this.laundryServices = laundryServices;
     }
 }

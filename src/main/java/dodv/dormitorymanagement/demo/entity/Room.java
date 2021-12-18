@@ -21,9 +21,9 @@ public class Room {
     @OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
     List<Student> students;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    List<RoomElectricityService> roomElectricityServiceList;
+    List<RoomElectricity> roomElectricityList;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    List<RoomWaterService> roomWaterServiceList;
+    List<RoomWater> roomWaterList;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     List<Bill> roomBills;
     public Room() {

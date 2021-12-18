@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "waterservice")
 @Setter
-public class RoomWaterService {
+public class RoomWater {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,6 +23,26 @@ public class RoomWaterService {
     @ManyToOne(optional = false)
     @JoinColumn(name = "roomid")
     private Room room;
-    @OneToMany(mappedBy = "roomWaterService")
+    @OneToMany(mappedBy = "roomWater")
     List<Bill> roomWaterBillList;
+
+    public int getId() {
+        return id;
+    }
+
+    public int getNumberWater() {
+        return numberWater;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
 }

@@ -20,6 +20,7 @@ public class Food {
     @Column(name = "id")
     private int id;
     @Column(name ="foodoption")
+    @Enumerated(EnumType.STRING)
     private EFoodType foodOption;
     @Column(name = "price")
     private float price;

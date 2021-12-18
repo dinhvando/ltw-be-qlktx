@@ -23,15 +23,15 @@ public class Bill {
     private Room room;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "foodsvid", referencedColumnName = "id")
-    private StudentFoodService studentFoodService;
+    private StudentFood studentFood;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "laundrysvid", referencedColumnName = "id")
-    private StudentLaundryService studentLaundryService;
-    @ManyToOne(optional = false)
+    private StudentLaundry studentLaundry;
+    @ManyToOne
     @JoinColumn(name = "watersvid")
-    private RoomWaterService roomWaterService;
-    @ManyToOne(optional = false)
+    private RoomWater roomWater;
+    @ManyToOne
     @JoinColumn(name = "elecsvid")
-    private RoomElectricityService roomElectricityService;
+    private RoomElectricity roomElectricity;
 
 }

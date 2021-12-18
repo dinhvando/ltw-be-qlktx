@@ -1,5 +1,7 @@
 package dodv.dormitorymanagement.demo.controller;
 
+import dodv.dormitorymanagement.demo.dto.request.FoodServiceRequestDTO;
+import dodv.dormitorymanagement.demo.dto.request.LaundryServiceRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.StudentRequestDTO;
 import dodv.dormitorymanagement.demo.dto.response.StudentDTO;
 import dodv.dormitorymanagement.demo.service.StudentService;
@@ -32,5 +34,15 @@ public class StudentController {
     public void createStudent(@RequestBody StudentRequestDTO studentRequest){
         studentService.createStudent(studentRequest);
     }
+    @PostMapping("/insert-laundry-service")
+    public void insertLaundryService(@RequestBody LaundryServiceRequestDTO inputLaundryRequest){
+            studentService.insertLaundryService(inputLaundryRequest);
+    }
+    @PostMapping("/insert-food-service")
+    public void insertFoodService(@RequestBody FoodServiceRequestDTO inputFoodRequest){
+            studentService.insertFoodService(inputFoodRequest);
+    }
+
+
 
 }

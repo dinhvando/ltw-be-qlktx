@@ -14,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @Setter
 @Getter
-public class StudentLaundryService {
+public class StudentLaundry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,6 +26,6 @@ public class StudentLaundryService {
     @ManyToOne(optional = false)
     @JoinColumn(name = "studentID")
     private Student student;
-    @OneToOne(mappedBy = "studentLaundryService")
+    @OneToOne(mappedBy = "studentLaundry")
     private Bill bill;
 }

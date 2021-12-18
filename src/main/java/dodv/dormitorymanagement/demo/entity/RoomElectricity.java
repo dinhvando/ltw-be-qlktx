@@ -2,6 +2,7 @@ package dodv.dormitorymanagement.demo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,7 +12,8 @@ import java.util.List;
 @Table(name = "electricservice")
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomElectricityService {
+@Setter
+public class RoomElectricity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,6 +27,26 @@ public class RoomElectricityService {
     @ManyToOne(optional = false)
     @JoinColumn(name = "roomid")
     private Room room;
-    @OneToMany(mappedBy = "roomElectricityService")
+    @OneToMany(mappedBy = "roomElectricity")
     List<Bill> roomElectBillList;
+
+    public int getId() {
+        return id;
+    }
+
+    public int getNumberElec() {
+        return numberElec;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
 }

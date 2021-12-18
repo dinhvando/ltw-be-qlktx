@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/class/")
 @Transactional
-@Log4j2
 public class ClassController {
     @Autowired
     private ClassService classService;

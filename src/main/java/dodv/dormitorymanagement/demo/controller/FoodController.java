@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/food/")
 @Transactional
-@Log4j2
 public class FoodController {
     @Autowired
     FoodService foodService;

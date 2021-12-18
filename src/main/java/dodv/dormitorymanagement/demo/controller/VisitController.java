@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/visit/")
 @Transactional
-@Log4j2
 public class VisitController {
     @Autowired
     VisitService visitService;

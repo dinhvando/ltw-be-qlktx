@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/visitor/")
 @Transactional
-@Log4j2
 public class VisitorController {
     @Autowired
     VisitorService visitorService;
