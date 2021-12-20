@@ -4,18 +4,19 @@ import dodv.dormitorymanagement.demo.dto.request.FoodServiceRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.LaundryServiceRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.StudentRequestDTO;
 import dodv.dormitorymanagement.demo.dto.response.StudentDTO;
+import dodv.dormitorymanagement.demo.entity.Student;
+import dodv.dormitorymanagement.demo.entity.ViewStudentBillDetail;
 import dodv.dormitorymanagement.demo.service.StudentService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/student/")
-@Transactional
-@Log4j2
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -42,7 +43,19 @@ public class StudentController {
     public void insertFoodService(@RequestBody FoodServiceRequestDTO inputFoodRequest){
             studentService.insertFoodService(inputFoodRequest);
     }
+    @GetMapping("/student-by-room/{roomID}")
+    public List<StudentDTO> getStudentsByRooms(@PathVariable Integer roomID){
+            return studentService.getStudentsByRooms(roomID);
+    }
 
+    @GetMapping("/view-student-bill-detail")
+    public ViewStudentBillDetail getStudentBillDetails(@RequestParam String studentID, @RequestParam Date time) {
+        return studentService.getBillDetailsByStudentAndTime(studentID, time);
+    }
+    @GetMapping("view-all-student-bill-detail/{studentID}")
+    public List<ViewStudentBillDetail> getAllStudentBillDetails(@PathVariable String studentID){
+        return studentService.getALlBillDetailByStudent(studentID);
+    }
 
 
 }

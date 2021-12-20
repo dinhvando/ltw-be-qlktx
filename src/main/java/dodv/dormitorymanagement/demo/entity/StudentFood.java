@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "foodservice")
@@ -22,6 +22,7 @@ public class StudentFood {
     @Column(name = "totalday")
     private int totalDay;
     @Column(name = "time")
+    @Temporal(TemporalType.DATE)
     private Date time;
     @ManyToOne(optional = false)
     @JoinColumn(name = "foodID")

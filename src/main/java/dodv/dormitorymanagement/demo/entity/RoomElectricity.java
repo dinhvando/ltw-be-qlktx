@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,6 +23,7 @@ public class RoomElectricity {
     @Column(name ="price")
     private float price;
     @Column(name ="time")
+    @Temporal(TemporalType.DATE)
     private Date time;
     @ManyToOne(optional = false)
     @JoinColumn(name = "roomid")

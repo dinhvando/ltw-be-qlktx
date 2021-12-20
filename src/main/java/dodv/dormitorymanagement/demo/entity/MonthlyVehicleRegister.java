@@ -9,24 +9,21 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "laundryservice")
+@Table(name = "monthlyvehicleregister")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-public class StudentLaundry {
+public class MonthlyVehicleRegister  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "price")
-    private float price;
-    @Column(name = "time")
+    @Column(name ="time")
     @Temporal(TemporalType.DATE)
     private Date time;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "studentID")
-    private Student student;
-    @OneToOne(mappedBy = "studentLaundry")
-    private Bill bill;
+    @JoinColumn(name = "licenseplate")
+    private Vehicle vehicle;
+
 }

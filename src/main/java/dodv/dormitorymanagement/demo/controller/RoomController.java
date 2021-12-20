@@ -3,6 +3,7 @@ package dodv.dormitorymanagement.demo.controller;
 import dodv.dormitorymanagement.demo.dto.request.RoomElectricityRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomWaterRequestDTO;
+import dodv.dormitorymanagement.demo.dto.response.RoomBillDetailDTO;
 import dodv.dormitorymanagement.demo.dto.response.RoomDTO;
 import dodv.dormitorymanagement.demo.service.RoomService;
 import lombok.extern.log4j.Log4j2;
@@ -14,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/room/")
-@Transactional
 public class RoomController {
     @Autowired
     RoomService roomService;
@@ -22,8 +22,8 @@ public class RoomController {
     public List<RoomDTO> getAllRooms(){
         return roomService.getAllRooms();
     }
-    @PostMapping("/create-room")
 
+    @PostMapping("/create-room")
     public void createRoom(@RequestBody RoomRequestDTO roomRequest){
         roomService.createRoom(roomRequest);
     }
@@ -36,5 +36,10 @@ public class RoomController {
     @PostMapping("/insert-water-service")
     public void insertWaterService(@RequestBody RoomWaterRequestDTO inputRoomWater){
         roomService.insertWaterService(inputRoomWater);
+    }
+
+    @GetMapping("/get-bills-by-room/{roomID}")
+    public List<RoomBillDetailDTO> getBillsByRoom(@PathVariable Integer roomID){
+        return roomService.getBillsByRoom(roomID);
     }
 }

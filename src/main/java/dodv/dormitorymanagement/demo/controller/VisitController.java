@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/visit/")
-@Transactional
 public class VisitController {
     @Autowired
     VisitService visitService;

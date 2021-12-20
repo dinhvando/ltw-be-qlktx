@@ -4,6 +4,7 @@ package dodv.dormitorymanagement.demo.service;
 import dodv.dormitorymanagement.demo.dto.request.RoomElectricityRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomWaterRequestDTO;
+import dodv.dormitorymanagement.demo.dto.response.RoomBillDetailDTO;
 import dodv.dormitorymanagement.demo.dto.response.RoomDTO;
 import dodv.dormitorymanagement.demo.entity.*;
 import dodv.dormitorymanagement.demo.repository.BillRepository;
@@ -106,7 +107,11 @@ public class RoomService {
             updateWaterBillFollowingStudent(allStudentsByRoom, inputRoomWater.getTime(),insertedRoomWater);
         }
     }
-
+    // get bills by room
+    public List<RoomBillDetailDTO> getBillsByRoom(Integer roomID){
+        Room room = roomRepository.getById(roomID);
+        return roomRepository.getAllBillsByRoom(room);
+    }
     private void updateElectBillFollowingStudent(@NotNull List<Student> students, Date time, RoomElectricity roomElectricity) {
         for (Student student : students) {
             List<Bill> billsBelongToStudent = billRepository.getAllBillsByStudentAndTime(student, time);
