@@ -45,6 +45,8 @@ public class Student {
     List<StudentLaundry> laundryServices;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     List<Bill> studentBills;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    Set<Vehicle> vehicles;
     public Student(String studentID, String name, String address, Date dateOfBirth, String image, Class className, Room room) {
         this.studentID = studentID;
         this.name = name;

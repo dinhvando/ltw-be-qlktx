@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/class/")
-@Transactional
 public class ClassController {
     @Autowired
     private ClassService classService;
