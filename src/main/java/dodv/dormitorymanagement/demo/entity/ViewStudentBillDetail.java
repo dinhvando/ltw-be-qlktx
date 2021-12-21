@@ -3,6 +3,7 @@ package dodv.dormitorymanagement.demo.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -11,6 +12,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "view_student_bill_detail")
+@IdClass(ViewStudentBillDetailId.class)
 public class ViewStudentBillDetail {
 
     @Id
@@ -40,7 +42,7 @@ public class ViewStudentBillDetail {
 
     @Column(name = "total", insertable = false, updatable = false)
     private Float total;
-
+    @Id
     @Temporal(TemporalType.DATE)
     @Column(name = "time", insertable = false, updatable = false)
     private Date time;

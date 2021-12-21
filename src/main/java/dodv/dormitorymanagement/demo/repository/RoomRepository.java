@@ -23,4 +23,6 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             "            where r =  ?1 " +
             "            and r = re.room and r = rw.room and re.time = rw.time")
     List<RoomBillDetailDTO> getAllBillsByRoom(Room room);
+    @Query(value = "Select r from Room r Where r  IN (select s.room From Student s Group By s.room HAVING count(s) > 0 )")
+    List<Room> getActiveRooms();
 }

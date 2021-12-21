@@ -59,6 +59,7 @@ public class StudentService {
                     .image(realStudent.getImage())
                     .studentClass(new ClassDTO(realStudent.getClassName().getId(), realStudent.getClassName().getName()))
                     .roomName(realStudent.getRoom().getName())
+                    .roomID(realStudent.getRoom().getId())
                     .build();
         }
         return res;
@@ -186,6 +187,7 @@ public class StudentService {
                     .dateOfBirth(x.getDateOfBirth())
                     .image(x.getImage())
                     .studentClass(new ClassDTO(x.getClassName().getId(), x.getClassName().getName()))
+                            .roomID(x.getRoom().getId())
                     .build()
             );
         }
@@ -198,7 +200,9 @@ public class StudentService {
         else throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Can't find your data");
     }
     public List<ViewStudentBillDetail> getALlBillDetailByStudent(String studentID){
-        return viewStudentBillDetailRepository.getByStudentId(studentID);
+        List<ViewStudentBillDetail> x = viewStudentBillDetailRepository.getByStudentId(studentID);
+        System.out.println(x.size());
+        return viewStudentBillDetailRepository.findAll();
     }
 
 }

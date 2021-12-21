@@ -1,6 +1,7 @@
 package dodv.dormitorymanagement.demo.service;
 
 
+import dodv.dormitorymanagement.demo.dto.request.EditRoomRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomElectricityRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RoomWaterRequestDTO;
@@ -13,8 +14,10 @@ import dodv.dormitorymanagement.demo.repository.RoomRepository;
 import dodv.dormitorymanagement.demo.repository.RoomWaterRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
 import java.util.LinkedList;
@@ -69,7 +72,8 @@ public class RoomService {
             updateElectBillFollowingStudent(allStudentsByRoom, inputRoomElectricity.getTime(),x);
         } else {
             // them
-            Room foundRoom = roomRepository.findById(inputRoomElectricity.getRoomID()).get();
+            System.out.println(inputRoomElectricity.getRoomID());
+            Room foundRoom = roomRepository.getById(inputRoomElectricity.getRoomID());
             insertedRoomElectricity.setRoom(foundRoom);
             insertedRoomElectricity.setNumberElec(inputRoomElectricity.getNumberElect());
             insertedRoomElectricity.setPrice((inputRoomElectricity.getPrice()));
@@ -153,5 +157,34 @@ public class RoomService {
             }
 
         }
+    }
+
+    public void updateRoom(@NotNull EditRoomRequestDTO editRoom) {
+        Optional<Room> room = roomRepository.findById(editRoom.getId());
+        if(room.isPresent()){
+            Room x = roomRepository.getById(editRoom.getId());
+            x.setName(editRoom.getName());
+            x.setPriceRoom(editRoom.getPrice());
+            roomRepository.save(x);
+        }else{
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Can't find this room in DB");
+        }
+    }
+
+    public List<RoomDTO> getActiveRooms() {
+        List<RoomDTO> result = new LinkedList<>();
+        List<Room> roomList = roomRepository.getActiveRooms();
+        for (Room x : roomList) {
+            result.add(
+                    RoomDTO.builder().id(x.getId())
+                            .name(x.getName())
+                            .price(x.getPriceRoom())
+                            .roomType(x.getType())
+                            .maxPeople(x.getMaxPeople())
+                            .build()
+            );
+
+        }
+        return result;
     }
 }

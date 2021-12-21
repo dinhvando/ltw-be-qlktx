@@ -16,4 +16,5 @@ public class StudentDTO {
     private String image;
     private ClassDTO studentClass;
     private String roomName;
+    private int roomID;
 }
