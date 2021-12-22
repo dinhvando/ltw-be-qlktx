@@ -47,6 +47,8 @@ public class Student {
     List<Bill> studentBills;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     Set<Vehicle> vehicles;
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    User user;
     public Student(String studentID, String name, String address, Date dateOfBirth, String image, Class className, Room room) {
         this.studentID = studentID;
         this.name = name;
@@ -124,6 +126,7 @@ public class Student {
     public void setFoodServices(List<StudentFood> foodServices) {
         this.foodServices = foodServices;
     }
+
 
     public void setLaundryServices(List<StudentLaundry> laundryServices) {
         this.laundryServices = laundryServices;
