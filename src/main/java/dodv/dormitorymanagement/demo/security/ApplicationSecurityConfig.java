@@ -20,6 +20,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import javax.crypto.SecretKey;
 
@@ -33,7 +36,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
     private final ApplicationUserService applicationUserService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
-
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService, SecretKey secretKey, JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
@@ -53,7 +61,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login", "/register").permitAll()
+                .antMatchers("/login", "/register", "/swagger-ui").permitAll()
                 .antMatchers("/student/get-my-info", "/student/insert-food-service", "/student/insert-laundry-service").hasRole(ApplicationUserRole.STUDENT.name())
                 .antMatchers("/**").hasRole(ApplicationUserRole.ADMIN.name())
                 .anyRequest()
@@ -64,9 +72,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+    @Bean
+    public HttpFirewall getHttpFirewall() {
+        return new DefaultHttpFirewall();
+    }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/register").antMatchers("/login");
+        super.configure(web);
+        web.ignoring().antMatchers(AUTH_WHITELIST);
+        web.httpFirewall(getHttpFirewall());
     }
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
