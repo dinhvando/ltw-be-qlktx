@@ -54,10 +54,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/login", "/register").permitAll()
+                .antMatchers("/student/get-my-info", "/student/insert-food-service", "/student/insert-laundry-service").hasRole(ApplicationUserRole.STUDENT.name())
                 .antMatchers("/**").hasRole(ApplicationUserRole.ADMIN.name())
-                .antMatchers("/student/insert-laundry-service/**").hasRole(ApplicationUserRole.STUDENT.name())
-                .antMatchers("/student/insert-laundry-service/**").hasRole(ApplicationUserRole.STUDENT.name())
-                .antMatchers("/student/view-student-bill-detail/**").hasRole(ApplicationUserRole.STUDENT.name())
                 .anyRequest()
                 .authenticated()
         ;

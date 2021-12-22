@@ -4,14 +4,16 @@ import dodv.dormitorymanagement.demo.dto.request.FoodServiceRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.LaundryServiceRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.StudentRequestDTO;
 import dodv.dormitorymanagement.demo.dto.response.StudentDTO;
-import dodv.dormitorymanagement.demo.entity.Student;
 import dodv.dormitorymanagement.demo.entity.ViewStudentBillDetail;
 import dodv.dormitorymanagement.demo.service.StudentService;
-import lombok.extern.log4j.Log4j2;
+import dodv.dormitorymanagement.demo.utils.UserUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Date;
 import java.util.List;
 
@@ -49,12 +51,20 @@ public class StudentController {
     }
 
     @GetMapping("/view-student-bill-detail")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ViewStudentBillDetail getStudentBillDetails(@RequestParam String studentID, @RequestParam Date time) {
         return studentService.getBillDetailsByStudentAndTime(studentID, time);
     }
     @GetMapping("view-all-student-bill-detail/{studentID}")
     public List<ViewStudentBillDetail> getAllStudentBillDetails(@PathVariable String studentID){
         return studentService.getALlBillDetailByStudent(studentID);
+    }
+    @GetMapping("/get-my-info")
+    public StudentDTO getMyInfo(@RequestHeader HttpHeaders headers){
+
+        String res = UserUtils.getCurrentUserName();
+        System.out.println(res);
+        return null;
     }
 
 
