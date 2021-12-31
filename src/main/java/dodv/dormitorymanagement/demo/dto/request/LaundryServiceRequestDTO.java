@@ -12,7 +12,5 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LaundryServiceRequestDTO {
-    private String studentID;
     private Date time;
-    private float price;
 }

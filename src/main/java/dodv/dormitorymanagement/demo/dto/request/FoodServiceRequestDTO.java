@@ -13,7 +13,6 @@ import java.sql.Date;
 @NoArgsConstructor
 public class FoodServiceRequestDTO {
     private int foodID;
-    private String studentID;
     private int totalDay;
     private Date time;
 }

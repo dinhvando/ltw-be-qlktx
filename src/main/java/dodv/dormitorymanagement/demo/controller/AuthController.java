@@ -4,6 +4,7 @@ import dodv.dormitorymanagement.demo.auth.ApplicationUser;
 import dodv.dormitorymanagement.demo.auth.ApplicationUserService;
 import dodv.dormitorymanagement.demo.dto.request.LoginRequestDTO;
 import dodv.dormitorymanagement.demo.dto.request.RegisterRequestDTO;
+import dodv.dormitorymanagement.demo.dto.response.ErrorDTO;
 import dodv.dormitorymanagement.demo.dto.response.JWTResponseDTO;
 import dodv.dormitorymanagement.demo.security.jwt.JwtConfig;
 import dodv.dormitorymanagement.demo.security.jwt.UsernameAndPasswordRequest;
@@ -39,7 +40,7 @@ public class AuthController {
       UserDetails user = applicationUserService.loadUserByUsername(input.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
       if(user == null || !passwordEncoder.matches(input.getPassword(), user.getPassword())){
-          return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Your username/password is not correct");
+          return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(ErrorDTO.builder().error("Your username/password is not correct").build());
       }
         String token = Jwts.builder()
                 .setSubject(user.getUsername())

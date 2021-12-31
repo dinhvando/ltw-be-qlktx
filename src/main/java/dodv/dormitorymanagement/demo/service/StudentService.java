@@ -8,8 +8,11 @@ import dodv.dormitorymanagement.demo.dto.response.StudentDTO;
 import dodv.dormitorymanagement.demo.entity.*;
 import dodv.dormitorymanagement.demo.entity.Class;
 import dodv.dormitorymanagement.demo.repository.*;
+import dodv.dormitorymanagement.demo.utils.UserUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@ConfigurationProperties(prefix = "application.service")
 public class StudentService {
     @Autowired
     StudentRepository studentRepository;
@@ -38,6 +42,15 @@ public class StudentService {
     FoodRepository foodRepository;
     @Autowired
     private ViewStudentBillDetailRepository viewStudentBillDetailRepository;
+    @Autowired
+    UserRepository userRepository;
+
+
+    private Float monthlyLaundryServicePrice;
+
+    public void setMonthlyLaundryServicePrice(Float monthlyLaundryServicePrice) {
+        this.monthlyLaundryServicePrice = monthlyLaundryServicePrice;
+    }
 
     public List<StudentDTO> getAllStudents() {
 
@@ -90,12 +103,13 @@ public class StudentService {
 
     @Transactional
     public void insertLaundryService(@NotNull LaundryServiceRequestDTO laundryService) {
-        Student student = studentRepository.getById(laundryService.getStudentID());
+        User u = userRepository.findByUsername(UserUtils.getCurrentUserName());
+        Student student = u.getStudent();
         List<StudentLaundry> serviceList = laundryServiceRepository.getLaundryServiceByStudentAndTime(student, laundryService.getTime());
         if (serviceList.size() > 0) {
             StudentLaundry x = serviceList.get(0);
             x.setStudent(student);
-            x.setPrice(laundryService.getPrice());
+            x.setPrice(monthlyLaundryServicePrice);
             x.setTime(laundryService.getTime());
             laundryServiceRepository.saveAll(serviceList);
             List<Bill> studentInBill = billRepository.getAllBillsByStudentAndTime(student, laundryService.getTime());
@@ -103,7 +117,7 @@ public class StudentService {
         } else {
             StudentLaundry addedLaundryService = new StudentLaundry();
             addedLaundryService.setStudent(student);
-            addedLaundryService.setPrice(laundryService.getPrice());
+            addedLaundryService.setPrice(monthlyLaundryServicePrice);
             addedLaundryService.setTime(laundryService.getTime());
             laundryServiceRepository.save(addedLaundryService);
             List<Bill> studentInBill = billRepository.getAllBillsByStudentAndTime(student, laundryService.getTime());
@@ -114,7 +128,8 @@ public class StudentService {
 
     @Transactional
     public void insertFoodService(@NotNull FoodServiceRequestDTO inputFoodRequest) {
-        Student student = studentRepository.getById(inputFoodRequest.getStudentID());
+        User u = userRepository.findByUsername(UserUtils.getCurrentUserName());
+        Student student = u.getStudent();
         Food pickedFood = foodRepository.findById(inputFoodRequest.getFoodID()).get();
         List<StudentFood> serviceList = foodServiceRepository.getFoodServiceByStudentAndTime(student, inputFoodRequest.getTime());
         if (serviceList.size() > 0) {
@@ -205,5 +220,22 @@ public class StudentService {
         return viewStudentBillDetailRepository.findAll();
     }
 
+    public StudentDTO getMyInfo() {
+        StudentDTO res = null;
+        String username = UserUtils.getCurrentUserName();
+        User u = userRepository.findByUsername(username);
+        Student student =  u.getStudent();
+        res = StudentDTO.builder()
+                .studentID(student.getStudentID())
+                .name(student.getName())
+                .address(student.getAddress())
+                .dateOfBirth(student.getDateOfBirth())
+                .image(student.getImage())
+                .studentClass(new ClassDTO(student.getClassName().getId(), student.getClassName().getName()))
+                .roomName(student.getRoom().getName())
+                .roomID(student.getRoom().getId())
+                .build();
+        return res;
+    }
 }
 

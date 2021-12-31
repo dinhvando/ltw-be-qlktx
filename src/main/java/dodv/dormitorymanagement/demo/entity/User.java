@@ -1,5 +1,6 @@
 package dodv.dormitorymanagement.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class User {
     @Column(name ="username", unique = true)
     private String username;
     @Column(name = "encryptedPassword")
+    @JsonIgnore
     private String password;
     @Column(name ="role")
     private String role;

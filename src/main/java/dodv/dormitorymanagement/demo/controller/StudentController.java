@@ -60,11 +60,8 @@ public class StudentController {
         return studentService.getALlBillDetailByStudent(studentID);
     }
     @GetMapping("/get-my-info")
-    public StudentDTO getMyInfo(@RequestHeader HttpHeaders headers){
-
-        String res = UserUtils.getCurrentUserName();
-        System.out.println(res);
-        return null;
+    public StudentDTO getMyInfo(){
+        return studentService.getMyInfo();
     }
 
 
